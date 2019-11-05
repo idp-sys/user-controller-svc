@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
+using System.Xml.Serialization;
 using LiteDB;
 using UserController.Domain.Entities;
 using UserController.Domain.Interfaces;
@@ -17,6 +18,7 @@ namespace UserController.Infra.Data.Repository
             {
                 var users = db.GetCollection<T>("users");
                 users.Insert(obj);
+
             }
         }
 

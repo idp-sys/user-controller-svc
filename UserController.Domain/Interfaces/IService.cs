@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FluentValidation;
 using UserController.Domain.Entities;
 
 namespace UserController.Domain.Interfaces
 {
     public interface IService<T> where T : BaseEntity
     {
-        T Post(T obj, string databasePath);
+        T Post<V>(T obj, string databasePath) where V : AbstractValidator<T>;
 
-        void Put(int id, string databasePath, string name = null, string status = null);
+        void Put<V>(int id, string databasePath, string name = null, string status = null) where V : AbstractValidator<T>;
 
         void Delete(int id, string databasePath);
 
