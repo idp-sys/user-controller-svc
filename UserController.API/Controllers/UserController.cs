@@ -12,7 +12,7 @@ using UserController.Service.Services;
 namespace UserController.API.Controllers
 {
     [Produces("application/json")]
-    [Route("api/user")]
+    [Route("user-controller")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -57,7 +57,7 @@ namespace UserController.API.Controllers
             }
         }
 
-        [HttpGet("buscarId/{id}")]
+        [HttpGet("buscar-por-id/{id}")]
         public IActionResult Get(int id)
         {
             try
@@ -70,7 +70,7 @@ namespace UserController.API.Controllers
             }
         }
 
-        [HttpGet("buscarNome/{name}")]
+        [HttpGet("buscar-por-nome/{name}")]
         public IActionResult Get(string name)
         {
             try
@@ -83,7 +83,7 @@ namespace UserController.API.Controllers
             }
         }
 
-        [HttpDelete("removerId/{id}")]
+        [HttpDelete("remover-por-id/{id}")]
         public IActionResult Delete(int id)
         {
             try
@@ -107,6 +107,8 @@ namespace UserController.API.Controllers
         {
             try
             {
+                service.Put(id, configuration.GetConnectionString("LiteDb"), name, status);
+
                 return new ObjectResult(id);
             }
             catch(ArgumentNullException ex)

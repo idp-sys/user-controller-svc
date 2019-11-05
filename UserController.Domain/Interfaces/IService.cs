@@ -9,7 +9,7 @@ namespace UserController.Domain.Interfaces
     {
         T Post(T obj, string databasePath);
 
-        T Put(int id, string databasePath, string name = null, string status = null);
+        void Put(int id, string databasePath, string name = null, string status = null);
 
         void Delete(int id, string databasePath);
 

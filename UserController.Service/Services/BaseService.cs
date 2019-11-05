@@ -18,9 +18,9 @@ namespace UserController.Service.Services
             return obj;
         }
 
-        public T Put(int id, string databasePath, string name = null, string status = null)
+        public void Put(int id, string databasePath, string name = null, string status = null)
         {
-            throw new NotImplementedException();
+            repository.Update(id, databasePath, name, status);
         }
 
         public void Delete(int id, string databasePath)

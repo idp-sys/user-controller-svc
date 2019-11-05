@@ -4,7 +4,6 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using LiteDB;
-using Microsoft.AspNetCore.Mvc;
 using UserController.Domain.Entities;
 using UserController.Domain.Interfaces;
 
