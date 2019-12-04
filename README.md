@@ -7,7 +7,9 @@ GET: Busca a lista de todos os usuários cadastrados.
 - Nome
 - Status
 
-GET\ID: Busca usuário cadastrado por ID
+GET\{ID}: Busca usuário cadastrado por ID
+
+GET\ByName\{Name}: Busca usuário cadastrado por Nome
 
 POST: Insere novo usuário. Necessário informar no corpo (body) Valores para "Name" e "Status". 
 O Id é gerado automaticamente.
