@@ -59,7 +59,13 @@ namespace DanielSanchesUserController.Repository
 
         public User Get(string name)
         {
-            return users.Find(p => p.Name == name);
+            User retUser = users.Find(p => p.Name == name);
+
+            if (retUser != null && retUser.Deleted == false)
+                return retUser;
+
+            return null;
+
         }
 
         public IEnumerable<User> GetAll()
