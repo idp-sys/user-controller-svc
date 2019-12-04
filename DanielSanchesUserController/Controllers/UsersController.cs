@@ -31,7 +31,9 @@ namespace DanielSanchesUserController.Controllers
             return new ObjectResult(user);
         }
 
-        [HttpGet("/name/{name}", Name = "GetUserByName")]
+        //[HttpGet("/name/{name}", Name = "GetUserByName")]
+        [HttpGet()]
+        [Route ("byName/{name}", Name = "GetUSerByName")]
         public IActionResult GetUserByName(string name)
         {
             User user = repository.Get(name);

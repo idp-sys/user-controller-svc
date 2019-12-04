@@ -50,7 +50,11 @@ namespace DanielSanchesUserController.Repository
 
         public User Get(int id)
         {
-            return users.Find(p => p.Id == id);
+            User retUser = users.Find(p => p.Id == id);
+            if (retUser != null && retUser.Deleted == false)
+                return retUser;
+
+            return null;
         }
 
         public User Get(string name)
@@ -60,12 +64,16 @@ namespace DanielSanchesUserController.Repository
 
         public IEnumerable<User> GetAll()
         {
-            return users;
+            return users.Where(p => p.Deleted == false);
         }
 
         public void Remove(int id)
         {
-            users.RemoveAll(p => p.Id == id);
+            User retUser = users.Find(p => p.Id == id);
+            retUser.Deleted = true;
+
+            SaveJson();
+            //users.RemoveAll(p => p.Id == id);
         }
 
         public bool Update(User item)
