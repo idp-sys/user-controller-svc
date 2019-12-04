@@ -1,30 +1,19 @@
 # user-controller-svc
 
-Criar uma Web API que execute as funções básicas de um simples sistema de controle de usuários.
+Web API que execute as funções de controle de usuários.
 
-Os usuários devem ter:
+GET: Busca a lista de todos os usuários cadastrados.
 - ID 
 - Nome
-- Status (ativo/inativo)
-    
-As funcionalidades deverão ser
-- Inclusão
-- Alteração
-- Exclusão (lógica)
-- Pesquisa por Nome
-- Pesquisa por ID
-- Listagem
-    
-O projeto deverá:
-- Ser desenvolvido em .NET Core
-- A API deverá ser self-host (Kestrel)
-- Utilizar Domain Driven Design (DDD) como pattern
-- Armazenar os dados fisicamente (fica a critério do desenvolvedor - Arquivo de texto, CSV, LiteDB...et cetera)
-- Utilizar os verbos HTTP
-- Os IDs devem ser únicos
-- Conter um README, com as instruções de como utilizar a API
-- Swagger será um diferencial
+- Status
 
-Criar um fork deste repositório e enviar um pull request para a avaliação
+GET\ID: Busca usuário cadastrado por ID
 
-Good Luck!
+POST: Insere novo usuário. Necessário informar no corpo (body) Valores para "Name" e "Status". 
+O Id é gerado automaticamente.
+
+PUT\{ID}: Altera o cadastro do usuário informado pelo ID.
+Necessário informar no corpo (body) os novos valores para os campos "Name" e "Status". 
+    
+DELETE\{ID}: Exclui o usuário informado no ID. Exclusão apenas lógica. Ao reiniciar a API, o arquivo físico não é modificado e os registros excluídos permanecem salvos.
+
