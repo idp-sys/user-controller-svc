@@ -32,13 +32,13 @@ namespace UserController.API.Controllers
         /// <summary>
         /// Cadastra Usuário
         /// </summary>
-        /// <param name="item">Objeto de usuário</param>
-        /// <returns>Objeto de usuário</returns>
-        /// <response code="200">Usuário cadastrado com sucesso.</response>
+        /// <param name="item">Usuário</param>
+        /// <returns>usuário</returns>
+        /// <response code="200">Usuário inserido com sucesso.</response>
         /// <response code="400">ID inválido</response>
         /// <response code="400">Nome inválido</response>
         /// <response code="400">Status inválido</response>
-        /// <response code="500">Erro interno no servidor.</response>
+        /// <response code="500">Erro do servidor.</response>
         [HttpPost("add")]
         public IActionResult Post([FromBody] User item)
         {
@@ -56,10 +56,10 @@ namespace UserController.API.Controllers
             {
                 if (ex.ErrorCode == 110)
                 {
-                    return ValidationProblem("Já existe um usuário com este ID");
+                    return ValidationProblem("Usuário existente com este ID");
                 }
 
-                return Problem("Contatar o suporte");
+                return Problem("Ligar para suporte");
             }
             catch (FluentValidation.ValidationException ex)
             {
@@ -77,12 +77,12 @@ namespace UserController.API.Controllers
         }
 
         /// <summary>
-        /// Exibe os usuários cadastrados
+        /// Lista todos usuários cadastrados
         /// </summary>
-        /// <response code="200">Usuários exibidos com sucesso.</response>
+        /// <response code="200">Usuários listados com sucesso.</response>
         /// <response code="500">Erro interno no servidor.</response>
-        [HttpGet]
-        [SwaggerOperation(Description = "Exibe todos os usuários cadastrados.")]
+        [HttpGet("getList")]
+        [SwaggerOperation(Description = "Lista todos os usuários cadastrados.")]
         public IActionResult Get()
         {
             try
@@ -99,10 +99,10 @@ namespace UserController.API.Controllers
         /// Consulta o usuário
         /// </summary>
         /// <param name="id">ID do usuário a ser consultado</param>
-        /// <response code="200">Usuário consultado com sucesso.</response>
+        /// <response code="200">Usuário pesquisado com sucesso.</response>
         /// <response code="500">Erro interno no servidor.</response>
         [HttpGet("getbyid/{id}")]
-        [SwaggerOperation(Description = "Consulta o usuário com o ID especificado.")]
+        [SwaggerOperation(Description = "Pesquisa o usuário com o ID.")]
         public IActionResult Get(int id)
         {
             try
@@ -119,10 +119,10 @@ namespace UserController.API.Controllers
         /// Consulta o usuário
         /// </summary>
         /// <param name="name">Nome do usuário a ser consultado</param>
-        /// <response code="200">Usuário consultado com sucesso.</response>
+        /// <response code="200">Usuário pesquisado com sucesso.</response>
         /// <response code="500">Erro interno no servidor.</response>
         [HttpGet("getbyname/{name}")]
-        [SwaggerOperation(Description = "Consulta o usuário com o nome especificado.")]
+        [SwaggerOperation(Description = "Pesquisa o usuário com o nome.")]
         public IActionResult Get(string name)
         {
             try
@@ -142,7 +142,7 @@ namespace UserController.API.Controllers
         /// <response code="200">Usuário deletado com sucesso.</response>
         /// <response code="500">Erro interno no servidor.</response>
         [HttpDelete("delete/{id}")]
-        [SwaggerOperation(Description = "Delete o usuário com o ID especificado.")]
+        [SwaggerOperation(Description = "Deletando o usuário com o ID.")]
         public IActionResult Delete(int id)
         {
             try
@@ -164,13 +164,13 @@ namespace UserController.API.Controllers
         /// <summary>
         /// Atualiza usuário
         /// </summary>
-        /// <param name="id">ID do usuário a ser atualizado</param>
-        /// <param name="name">Novo nome que será dado ao usuário</param>
-        /// <param name="status">Novo status que será dado ao usuário</param>
+        /// <param name="id">ID do usuário</param>
+        /// <param name="name">Novo nome do usuário</param>
+        /// <param name="status">Novo status do usuário</param>
         /// <response code="200">Atualização efetuada com sucesso.</response>
         /// <response code="500">Erro interno no servidor.</response>
         [HttpPut("update/{id}")]
-        [SwaggerOperation(Description = "Atualiza dados do usuário.")]
+        [SwaggerOperation(Description = "Atualização do usuário.")]
         public IActionResult Put(int id, [FromQuery]string name, [FromQuery]string status)
         {
             try

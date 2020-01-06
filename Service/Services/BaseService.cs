@@ -59,7 +59,7 @@ namespace Service.Services
         private void Validate(T obj, AbstractValidator<T> validator)
         {
             if (obj == null)
-                throw new Exception("Registros não detectados!");
+                throw new Exception("Registros não Encontrados!");
 
             validator.ValidateAndThrow(obj);
         }

@@ -37,7 +37,7 @@ namespace API
                 {
                     Version = "v1.0",
                     Title = "User Controller API",
-                    Description = "Sistema básico para de controle de usuários",
+                    Description = "Controle de usuários",
                     Contact = new OpenApiContact
                     {
                         Name = "Support",
