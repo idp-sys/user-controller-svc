@@ -6,9 +6,21 @@ namespace UserManager.Domain.Entities
 {
    public class User
     {
-        public int Id { get; set; }
-        public string Nome { get; set; }
-        public bool Status { get; set; }
+        public User()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
+
+        public string Id { get; set; }
+
+        public virtual string Email { get; set; }
+
+        public virtual string UserName { get; set; }
+
+        //Status
+        public virtual bool LockoutEnabled { get; set; }
+
+        //public bool Status { get; set; }
 
     }
 }
