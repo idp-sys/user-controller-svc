@@ -4,4 +4,9 @@
     <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\UserManager.Data\UserManager.Infra.Data.csproj" />
+    <ProjectReference Include="..\UserManager.Domain\UserManager.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

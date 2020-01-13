@@ -10,7 +10,7 @@ namespace UserManager.Infra.CrossCutting.Identity.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=(local);Initial Catalog=IdentityDb;Integrated Security= true");
+            optionsBuilder.UseSqlServer("Data Source=(local);Initial Catalog=UserManager;Integrated Security= true");
         }
 
         public static ApplicationDbContext Create()

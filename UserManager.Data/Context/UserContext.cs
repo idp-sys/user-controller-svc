@@ -9,9 +9,10 @@ namespace UserManager.Infra.Data.Context
    public class UserContext : DbContext
     {
         public DbSet<User> User { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=(local);Initial Catalog=IdentityDb;Integrated Security= true");
+            optionsBuilder.UseSqlServer("Data Source=(local);Initial Catalog=UserManager;Integrated Security= true");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -11,10 +11,41 @@ namespace UserManager.Infra.Data.Repositories
     {
         private readonly UserContext _db;
 
+        //- Inclusão
+        //- Alteração
+        //- Exclusão(lógica)
+        //- Pesquisa por Nome -- Feito 
+        //- Pesquisa por ID -- Feito 
+        //- Listagem --feito 
+
+
         public UserRepository()
         {
             _db = new UserContext();
         }
+
+        //public User updateUserById(User user)
+        //{
+        //    return _db.User.Update(user);
+        //}
+
+
+        public User getUserById(string id)
+        {
+            return _db.User.Find(id);
+        }
+
+        public User getUserByName(string name)
+        {
+            return _db.User.Find(name);
+        }
+
+
+        public IEnumerable<User> getAllUsers()
+        {
+            return _db.User.ToList();
+        }
+
         public void Dispose()
         {
             _db.Dispose();
