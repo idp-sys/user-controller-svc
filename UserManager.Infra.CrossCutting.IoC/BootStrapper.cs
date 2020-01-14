@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using SimpleInjector;
+using UserManager.Application.Interfaces.Services;
+using UserManager.Application.Services;
 using UserManager.Domain.Interfaces.Repositories;
 using UserManager.Domain.Interfaces.Services;
 using UserManager.Infra.CrossCutting.Identity.Config;
@@ -21,6 +23,9 @@ namespace UserManager.Infra.CrossCutting.IoC
             container.Register<IUserStore<ApplicationUser>>(() => new UserStore<ApplicationUser>(new ApplicationDbContext()));
 
             container.Register<IUserRepository, UserRepository>();
+
+            container.Register<IUserService,UserService>();
+
         } 
     }
 }

@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -35,6 +36,8 @@ namespace UserManager.API
 
             services.AddDbContext<UserContext>(option => option.UseLazyLoadingProxies()
                                                .UseSqlServer(conn, a => a.MigrationsAssembly("UserManager.Infra.Data")));
+
+            services.AddAutoMapper(typeof(Startup));
 
             //Adicao de Container IoC
             services.AddSingleton<IControllerActivator>(

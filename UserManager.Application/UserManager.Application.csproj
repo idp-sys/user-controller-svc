@@ -5,8 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\UserManager.Data\UserManager.Infra.Data.csproj" />
     <ProjectReference Include="..\UserManager.Domain\UserManager.Domain.csproj" />
+    <ProjectReference Include="..\UserManager.Infra.CrossCutting.Identity\UserManager.Infra.CrossCutting.Identity.csproj" />
   </ItemGroup>
 
 </Project>

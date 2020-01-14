@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\UserManager.Application\UserManager.Application.csproj" />
     <ProjectReference Include="..\UserManager.Data\UserManager.Infra.Data.csproj" />
     <ProjectReference Include="..\UserManager.Domain\UserManager.Domain.csproj" />
     <ProjectReference Include="..\UserManager.Infra.CrossCutting.Identity\UserManager.Infra.CrossCutting.Identity.csproj" />

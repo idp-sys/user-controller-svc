@@ -17,10 +17,10 @@ namespace UserManager.Domain.Entities
 
         public virtual string UserName { get; set; }
 
-        //Status
+        public string Password { get; set; }
+
         public virtual bool LockoutEnabled { get; set; }
 
-        //public bool Status { get; set; }
 
     }
 }
