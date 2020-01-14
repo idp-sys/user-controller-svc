@@ -14,7 +14,7 @@ namespace UserManager.Application.Interfaces.Services
         public Task<IdentityResult> DeleteUser(User model, ApplicationUserManager userManager);
         public Task<ApplicationUser> GetUserById(User model, ApplicationUserManager userManager);
         public Task<ApplicationUser> GetUserByName(User model, ApplicationUserManager userManager);
-        public Task<IQueryable<ApplicationUser>> GetAlusers(User model, ApplicationUserManager userManager);
+        public IQueryable<ApplicationUser> GetAlusers(User model, ApplicationUserManager userManager);
 
     }
 }

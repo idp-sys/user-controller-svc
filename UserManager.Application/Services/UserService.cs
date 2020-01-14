@@ -36,24 +36,40 @@ namespace UserManager.Application.Services
             return result;
         }
 
-        public async IQueryable<ApplicationUser> GetAlusers( ApplicationUserManager userManager)
+        public IQueryable<ApplicationUser> GetAlusers(User model, ApplicationUserManager userManager)
         {
-            return userManager.Users.ToList();
+            return userManager.Users;
         }
 
         public async Task<ApplicationUser> GetUserById(User model, ApplicationUserManager userManager)
         {
-            throw new NotImplementedException();
+            return  await userManager.FindByIdAsync(model.Id);
         }
 
         public async Task<ApplicationUser> GetUserByName(User model, ApplicationUserManager userManager)
         {
-            throw new NotImplementedException();
+            return await userManager.FindByNameAsync(model.UserName);
         }
 
         public async Task<IdentityResult> UpdateUser(User model, ApplicationUserManager userManager)
         {
-            throw new NotImplementedException();
+            IdentityResult result = new IdentityResult();
+
+            var userFound = await userManager.FindByIdAsync(model.Id);
+
+            if (userFound != null)
+            {
+                userFound.Id = model.Id;
+                userFound.UserName = model.UserName;
+                userFound.Email = model.Email;
+
+                result = await userManager.UpdateAsync(userFound);
+
+                return result;
+            }
+
+            return result;
+
         }
     }
 }
