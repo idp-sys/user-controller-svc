@@ -10,7 +10,5 @@ namespace UserManager.API.AutoMapper
         {
             CreateMap<User, UserViewModel>();
         }
-
-        
     }
 }

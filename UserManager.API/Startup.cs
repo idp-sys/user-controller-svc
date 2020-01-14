@@ -20,14 +20,12 @@ namespace UserManager.API
 
         public IConfiguration Configuration { get; }
 
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
             var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
             Configuration = builder.Build();
         }
-
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -46,7 +44,6 @@ namespace UserManager.API
             services.AddSingleton<IViewComponentActivator>(
                    new SimpleInjectorViewComponentActivator(container));
 
-
             services.AddControllers();
         }
 
@@ -62,7 +59,6 @@ namespace UserManager.API
 
             InitializeContainer(container);
 
-           
             //container.Register<CustomMiddleware>();
 
             container.Verify();
@@ -70,7 +66,6 @@ namespace UserManager.API
             //app.Use(async (context, next) => {
             //    await container.GetInstance<CustomMiddleware>().Invoke(context, next);
             //});
-
 
             app.UseHttpsRedirection();
 

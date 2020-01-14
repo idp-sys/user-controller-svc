@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using UserManager.Application.Interfaces.Services;
@@ -19,49 +18,49 @@ namespace UserManager.Application.Services
             return result;
         }
 
-        public async Task<IdentityResult> DeleteUser(User model, ApplicationUserManager userManager)
+        public async Task<IdentityResult> DeleteUser(string id, ApplicationUserManager userManager)
         {
             IdentityResult result = new IdentityResult();
 
-            var userFound = await userManager.FindByIdAsync(model.Id);
-           
+            var userFound = await userManager.FindByIdAsync(id);
+
             if (userFound != null)
             {
                 userFound.LockoutEnabled = true;
 
-                result  = await userManager.UpdateAsync(userFound);
-                
+                result = await userManager.UpdateAsync(userFound);
+
                 return result;
             }
             return result;
         }
 
-        public IQueryable<ApplicationUser> GetAlusers(User model, ApplicationUserManager userManager)
+        public IQueryable<ApplicationUser> GetAllusers(ApplicationUserManager userManager)
         {
             return userManager.Users;
         }
 
-        public async Task<ApplicationUser> GetUserById(User model, ApplicationUserManager userManager)
+        public async Task<ApplicationUser> GetUserById(string id, ApplicationUserManager userManager)
         {
-            return  await userManager.FindByIdAsync(model.Id);
+            return await userManager.FindByIdAsync(id);
         }
 
-        public async Task<ApplicationUser> GetUserByName(User model, ApplicationUserManager userManager)
+        public async Task<ApplicationUser> GetUserByName(string name, ApplicationUserManager userManager)
         {
-            return await userManager.FindByNameAsync(model.UserName);
+            return await userManager.FindByNameAsync(name);
         }
 
-        public async Task<IdentityResult> UpdateUser(User model, ApplicationUserManager userManager)
+        public async Task<IdentityResult> UpdateUser(string id, User model, ApplicationUserManager userManager)
         {
             IdentityResult result = new IdentityResult();
 
-            var userFound = await userManager.FindByIdAsync(model.Id);
+            var userFound = await userManager.FindByIdAsync(id);
 
             if (userFound != null)
             {
-                userFound.Id = model.Id;
                 userFound.UserName = model.UserName;
                 userFound.Email = model.Email;
+                userFound.LockoutEnabled = model.LockoutEnabled;
 
                 result = await userManager.UpdateAsync(userFound);
 
@@ -69,7 +68,6 @@ namespace UserManager.Application.Services
             }
 
             return result;
-
         }
     }
 }

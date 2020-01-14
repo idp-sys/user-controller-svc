@@ -1,44 +1,35 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using UserManager.API.Models;
 using UserManager.Application.Interfaces.Services;
 using UserManager.Domain.Entities;
-using UserManager.Domain.Interfaces.Services;
 using UserManager.Infra.CrossCutting.Identity.Config;
 
 namespace UserManager.API.Controllers
 {
-
+    [ApiController]
     public class UserController : Controller
     {
-
-        //private IidentityApplicationUserManager _userManager;
-
         private ApplicationUserManager _userManager;
         private IUserService _userService;
         private readonly IMapper _mapper;
 
-        public UserController(ApplicationUserManager userManager , IUserService userService , IMapper mapper)
+        public UserController(ApplicationUserManager userManager, IUserService userService, IMapper mapper)
         {
             _userManager = userManager;
             _userService = userService;
             _mapper = mapper;
         }
 
-
-
-        //POST: User/Create
         [HttpPost]
         [AllowAnonymous]
-        public  async Task<JsonResult> Create(UserViewModel model)
+        public async Task<IActionResult> Create([FromBody]UserViewModel model)
         {
-    
             var user = _mapper.Map<User>(model);
 
-            var result = await _userService.CreateUser(user,_userManager).ConfigureAwait(true);
+            var result = await _userService.CreateUser(user, _userManager).ConfigureAwait(true);
             if (result.Succeeded)
             {
                 return Json(result.Succeeded);
@@ -47,27 +38,13 @@ namespace UserManager.API.Controllers
             return Json(result.Errors);
         }
 
-        // GET: User/Delete/5
-        public async Task<ActionResult> Delete(UserViewModel model)
+        [HttpPut("{id:int}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Edit([FromBody] UserViewModel model, [FromRoute] string id)
         {
             var user = _mapper.Map<User>(model);
 
-            var result = await _userService.UpdateUser(user, _userManager).ConfigureAwait(true);
-
-            if (result.Succeeded)
-            {
-                return Json(result.Succeeded);
-            }
-
-            return Json(result.Errors);
-        }
-
-        // GET: User/Edit/5
-        public async Task<ActionResult> Edit(UserViewModel model)
-        {
-            var user = _mapper.Map<User>(model);
-
-            var result = await _userService.UpdateUser(user, _userManager).ConfigureAwait(true);
+            var result = await _userService.UpdateUser(id, user, _userManager).ConfigureAwait(true);
 
             if (result.Succeeded)
             {
@@ -77,13 +54,12 @@ namespace UserManager.API.Controllers
             return Json(result.Errors);
         }
 
-        // GET: User/Details/5
-        public async Task<ActionResult> UpdateUser(UserViewModel model)
+        [HttpDelete("{id:int}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Delete([FromRoute] string id)
         {
-            var user = _mapper.Map<User>(model);
+            var result = await _userService.DeleteUser(id, _userManager).ConfigureAwait(true);
 
-            var result = await _userService.UpdateUser(user, _userManager).ConfigureAwait(true);
-        
             if (result.Succeeded)
             {
                 return Json(result.Succeeded);
@@ -92,6 +68,45 @@ namespace UserManager.API.Controllers
             return Json(result.Errors);
         }
 
-      
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult GetAllUser()
+        {
+            var result = _userService.GetAllusers(_userManager);
+
+            if (result != null)
+            {
+                return Json(result);
+            }
+
+            return View();
+        }
+
+        [HttpGet("{id:int}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetById([FromRoute] string id)
+        {
+            var result = await _userService.GetUserById(id, _userManager).ConfigureAwait(true);
+
+            if (result != null)
+            {
+                return Json(result);
+            }
+
+            return View();
+        }
+
+        [HttpGet("{name:string}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetByName([FromRoute] string name)
+        {
+            var result = await _userService.GetUserByName(name, _userManager).ConfigureAwait(true);
+
+            if (result != null)
+            {
+                return Json(result);
+            }
+            return View();
+        }
     }
 }

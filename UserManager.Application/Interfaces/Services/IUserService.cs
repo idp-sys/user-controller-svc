@@ -10,11 +10,15 @@ namespace UserManager.Application.Interfaces.Services
     public interface IUserService
     {
         public Task<IdentityResult> CreateUser(User model, ApplicationUserManager userManager);
-        public Task<IdentityResult> UpdateUser(User model, ApplicationUserManager userManager);
-        public Task<IdentityResult> DeleteUser(User model, ApplicationUserManager userManager);
-        public Task<ApplicationUser> GetUserById(User model, ApplicationUserManager userManager);
-        public Task<ApplicationUser> GetUserByName(User model, ApplicationUserManager userManager);
-        public IQueryable<ApplicationUser> GetAlusers(User model, ApplicationUserManager userManager);
 
+        public Task<IdentityResult> UpdateUser(string id, User model, ApplicationUserManager userManager);
+
+        public Task<IdentityResult> DeleteUser(string id, ApplicationUserManager userManager);
+
+        public Task<ApplicationUser> GetUserById(string id, ApplicationUserManager userManager);
+
+        public Task<ApplicationUser> GetUserByName(string name, ApplicationUserManager userManager);
+
+        public IQueryable<ApplicationUser> GetAllusers(ApplicationUserManager userManager);
     }
 }

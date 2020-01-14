@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace UserManager.Domain.Entities
 {
-   public class User
+    public class User
     {
         public User()
         {
@@ -20,7 +18,5 @@ namespace UserManager.Domain.Entities
         public string Password { get; set; }
 
         public virtual bool LockoutEnabled { get; set; }
-
-
     }
 }

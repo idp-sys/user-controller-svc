@@ -1,12 +1,10 @@
-﻿
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using UserManager.Domain.Entities;
 using UserManager.Infra.Data.Config;
 
 namespace UserManager.Infra.Data.Context
 {
-   public class UserContext : DbContext
+    public class UserContext : DbContext
     {
         public DbSet<User> User { get; set; }
 

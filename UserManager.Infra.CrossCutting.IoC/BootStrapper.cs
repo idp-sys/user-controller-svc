@@ -4,7 +4,6 @@ using SimpleInjector;
 using UserManager.Application.Interfaces.Services;
 using UserManager.Application.Services;
 using UserManager.Domain.Interfaces.Repositories;
-using UserManager.Domain.Interfaces.Services;
 using UserManager.Infra.CrossCutting.Identity.Config;
 using UserManager.Infra.CrossCutting.Identity.Context;
 using UserManager.Infra.CrossCutting.Identity.Model;
@@ -18,14 +17,13 @@ namespace UserManager.Infra.CrossCutting.IoC
         {
             container.Register<ApplicationDbContext>();
 
-            container.Register<IidentityApplicationUserManager, ApplicationUserManager>();
+            container.Register<ApplicationUserManager>();
 
             container.Register<IUserStore<ApplicationUser>>(() => new UserStore<ApplicationUser>(new ApplicationDbContext()));
 
             container.Register<IUserRepository, UserRepository>();
 
-            container.Register<IUserService,UserService>();
-
-        } 
+            container.Register<IUserService, UserService>();
+        }
     }
 }
