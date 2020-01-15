@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SimpleInjector;
 using SimpleInjector.Integration.AspNetCore.Mvc;
+using UserManager.Infra.CrossCutting.Identity.Context;
+using UserManager.Infra.CrossCutting.Identity.Model;
 using UserManager.Infra.CrossCutting.IoC;
 using UserManager.Infra.Data.Context;
 
@@ -30,10 +33,11 @@ namespace UserManager.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var conn = Configuration.GetConnectionString("UserManagerDb");
 
-            services.AddDbContext<UserContext>(option => option.UseLazyLoadingProxies()
-                                               .UseSqlServer(conn, a => a.MigrationsAssembly("UserManager.Infra.Data")));
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("UserManagerDb")));
+
+          
 
             services.AddAutoMapper(typeof(Startup));
 
@@ -59,13 +63,7 @@ namespace UserManager.API
 
             InitializeContainer(container);
 
-            //container.Register<CustomMiddleware>();
-
             container.Verify();
-
-            //app.Use(async (context, next) => {
-            //    await container.GetInstance<CustomMiddleware>().Invoke(context, next);
-            //});
 
             app.UseHttpsRedirection();
 
@@ -79,7 +77,7 @@ namespace UserManager.API
             });
         }
 
-        private void InitializeContainer(Container container)
+        private static void InitializeContainer(Container container)
         {
             BootStrapper.RegisterServices(container);
         }
