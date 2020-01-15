@@ -1,7 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Microsoft.EntityFrameworkCore;
@@ -11,9 +10,7 @@ using Microsoft.Extensions.Hosting;
 using SimpleInjector;
 using SimpleInjector.Integration.AspNetCore.Mvc;
 using UserManager.Infra.CrossCutting.Identity.Context;
-using UserManager.Infra.CrossCutting.Identity.Model;
 using UserManager.Infra.CrossCutting.IoC;
-using UserManager.Infra.Data.Context;
 
 namespace UserManager.API
 {
@@ -33,11 +30,8 @@ namespace UserManager.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("UserManagerDb")));
-
-          
 
             services.AddAutoMapper(typeof(Startup));
 

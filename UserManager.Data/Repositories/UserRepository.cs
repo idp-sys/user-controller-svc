@@ -10,6 +10,7 @@ namespace UserManager.Infra.Data.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly UserContext _db;
+
         public UserRepository()
         {
             _db = new UserContext();
