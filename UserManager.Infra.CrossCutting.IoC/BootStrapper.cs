@@ -15,15 +15,15 @@ namespace UserManager.Infra.CrossCutting.IoC
     {
         public static void RegisterServices(Container container)
         {
-            container.Register<ApplicationDbContext>();
+            container.Register<ApplicationDbContext>(Lifestyle.Scoped);
 
-            container.Register<ApplicationUserManager>();
+            container.Register<IUserStore<ApplicationUser>>(() => new UserStore<ApplicationUser>(new ApplicationDbContext()), Lifestyle.Scoped);
 
-            container.Register<IUserStore<ApplicationUser>>(() => new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            container.Register<ApplicationUserManager>(Lifestyle.Scoped);
 
-            container.Register<IUserRepository, UserRepository>();
+            container.Register<IUserRepository, UserRepository>(Lifestyle.Scoped);
 
-            container.Register<IUserService, UserService>();
+            container.Register<IUserService, UserService>(Lifestyle.Scoped);
         }
     }
 }

@@ -1,15 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
 using UserManager.Infra.CrossCutting.Identity.Model;
 
 namespace UserManager.Infra.CrossCutting.Identity.Config
 {
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
-        public ApplicationUserManager(IUserStore<ApplicationUser> store, IOptions<IdentityOptions> optionsAccessor, IPasswordHasher<ApplicationUser> passwordHasher, IEnumerable<IUserValidator<ApplicationUser>> userValidators, IEnumerable<IPasswordValidator<ApplicationUser>> passwordValidators, ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, IServiceProvider services, ILogger<UserManager<ApplicationUser>> logger) : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger)
+        //Obs. Aqui podemos configurar todas as funcionalidades do Identity, neste caso so estou usando
+        //as configuracoes  referentes ao ApplicationUser
+        public ApplicationUserManager(IUserStore<ApplicationUser> store)
+          : base(store, null, null, null, null, null, null, null, null)
         {
         }
     }

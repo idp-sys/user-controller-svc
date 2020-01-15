@@ -10,6 +10,7 @@ using UserManager.Infra.CrossCutting.Identity.Config;
 namespace UserManager.API.Controllers
 {
     [ApiController]
+    [Route("api/[controller]")]
     public class UserController : Controller
     {
         private ApplicationUserManager _userManager;

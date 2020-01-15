@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using System;
 using UserManager.Infra.CrossCutting.Identity.Model;
 
 namespace UserManager.Infra.CrossCutting.Identity.Context
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IDisposable, IDesignTimeDbContextFactory<ApplicationDbContext>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IDesignTimeDbContextFactory<ApplicationDbContext>
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
