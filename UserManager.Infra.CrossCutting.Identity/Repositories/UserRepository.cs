@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UserManager.Domain.Entities;
@@ -10,59 +9,81 @@ namespace UserManager.Infra.CrossCutting.Identity.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly ApplicationDbContext _db;
-
-        public UserRepository()
+        public async Task<string> CreateUserAsync(User user)
         {
-            _db = new ApplicationDbContext();
+            using (var context = new ApplicationDbContext())
+            {
+                var state = await context.UserDomain.AddAsync(user);
+                var result = context.SaveChangesAsync(true).Result;
+                return result == 1 ? "User has been created successfully" : "Unable to create";
+            }
+         }
+
+
+        public async Task<string> UpdateUserAsync(string id, User userData)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var user = await context.UserDomain.FindAsync(id);
+                
+                if (user != null)
+                {
+                    user.UserName = userData.UserName;
+                    user.Email = userData.Email;
+
+                    var state = context.UserDomain.Update(user).State;
+                    var validator = context.SaveChangesAsync(true).Result;
+                    return validator == 1 ? "User has been updated successfully" : "Unable to update";
+                } else
+                {
+                    return "User not found";
+                }
+            }
         }
 
-        public void createUser(User user)
+        public async Task<string> DeleteUserAsync(string id , bool status)
         {
-            _db.UserDomain.Add(user);
-            var result = _db.SaveChanges();
-        }
-        public void updateUser(string id , User userData)
-        {
-          var user  =  _db.UserDomain.Find(id);
-            user.UserName = userData.UserName;
-            user.Email = userData.Email;
-            _db.UserDomain.Update(user);
-             var result = _db.SaveChanges();
-        }
+            using (var context = new ApplicationDbContext())
+            {
+                var user = await context.UserDomain.FindAsync(id);
 
-        public void deleteUser(string id)
-        {
-            var user = _db.UserDomain.Find(id);
-            
-            user.LockoutEnabled = false;
-           
-            _db.UserDomain.Update(user);
-            
-            var result = _db.SaveChanges();
+                if (user != null)
+                {
+                    user.LockoutEnabled = status;
+                    var state = context.UserDomain.Update(user).State;
+                    
+                    var validator = context.SaveChangesAsync(true).Result;
+                    return validator == 1 ? "User has been deleted successfully" : "Unable to delete";
+                }
+                else
+                {
+                    return "User not found";
+                }
+            }
         }
 
-        public async Task<User> getUserByIdAsync(string id)
+        public async Task<User> GetUserByIdAsync(string id)
         {
-            return  await _db.UserDomain.FindAsync(id);
+            using (var context = new ApplicationDbContext())
+            {
+                return await context.UserDomain.FindAsync(id);               
+            }     
         }
 
-        public async Task<User> getUserByNameAsync(string name)
+        public async Task<User> GetUserByNameAsync(string name)
         {
-            return await _db.UserDomain.FindAsync(name);
+            using (var context = new ApplicationDbContext())
+            {
+                return await context.UserDomain.ToAsyncEnumerable().Single(u => u.UserName == name);                 
+            }
         }
 
-        public IEnumerable<User> getAllUsers()
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            return _db.UserDomain.ToList();
+            using (var context = new ApplicationDbContext())
+            {
+                return await context.UserDomain.ToAsyncEnumerable().ToList();
+            }
         }
-
-        public void Dispose()
-        {
-            _db.Dispose();
-            GC.SuppressFinalize(this);
-        }
-
-
     }
 }

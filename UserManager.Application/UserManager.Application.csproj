@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\UserManager.Infra.CrossCutting.Identity\UserManager.Infra.CrossCutting.Identity.csproj" />
+    <ProjectReference Include="..\UserManager.Domain\UserManager.Domain.csproj" />
   </ItemGroup>
 
 </Project>

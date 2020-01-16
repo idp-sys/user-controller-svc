@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManager.Infra.CrossCutt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManager.Infra.CrossCutting.IoC", "UserManager.Infra.CrossCutting.IoC\UserManager.Infra.CrossCutting.IoC.csproj", "{34D18C21-22E5-4612-A498-E84085CBC44D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManager.API", "UserManager.API\UserManager.API.csproj", "{F7746E23-A429-48AC-B9CB-B4F8BC5986BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManager.API", "UserManager.API\UserManager.API.csproj", "{F7746E23-A429-48AC-B9CB-B4F8BC5986BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

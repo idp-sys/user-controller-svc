@@ -4,15 +4,14 @@ using UserManager.Domain.Entities;
 
 namespace UserManager.Domain.Interfaces.Repositories
 {
-    //TODO: AJUSTAR CLASSE
     public interface IUserRepository
     {
-         void createUser(User user);
-          void updateUser(string id, User userData);
-          void deleteUser(string id);
-          Task<User> getUserByIdAsync(string id);
-          Task<User> getUserByNameAsync(string name);
-          IEnumerable<User> getAllUsers();
+        Task<string> CreateUserAsync(User user);
+        Task<string> UpdateUserAsync(string id, User userData);
+        Task<string> DeleteUserAsync(string id, bool status);
+        Task<User> GetUserByIdAsync(string id);
+        Task<User> GetUserByNameAsync(string name);
+        Task<IEnumerable<User>> GetAllUsersAsync();
 
     }
 }

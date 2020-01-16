@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using UserManager.API.Models;
 using UserManager.Application.Interfaces.Services;
 using UserManager.Domain.Entities;
 using UserManager.Infra.CrossCutting.Identity.Config;
-using UserManager.Infra.CrossCutting.Identity.Model;
 
 namespace UserManager.API.Controllers
 {
@@ -19,58 +14,47 @@ namespace UserManager.API.Controllers
     public class UserController : ControllerBase
     {
         private ApplicationUserManager _userManager;
-        //private ApplicationUser _applicationUser;
         private IUserService _userService;
         private readonly IMapper _mapper;
 
         public UserController(ApplicationUserManager userManager,  IUserService userService, IMapper mapper)
         {
             _userManager = userManager;
-            //_applicationUser = applicationUser;
             _userService = userService;
             _mapper = mapper;
         }
 
         [HttpPost]
-        //[ProducesResponseType(StatusCodes.Status201Created)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult Create([FromBody]UserViewModel model)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+      
+        public async  Task<ActionResult> Create([FromBody]UserViewModel model)
         {
-     
-            try
+           string result = string.Empty;
+
+            if (ModelState.IsValid)
             {
-                //Microsoft.AspNetCore.Identity.IdentityResult identityResult = new IdentityResult();
-                // var user =  _mapper.Map<User>(model);
                 User user = new User
                 {
                     UserName = model.Name,
                     Email = model.Email,
-                    Password = model.Password,                   
+                    Password = model.Password,
                 };
 
-                //ApplicationUser user = new ApplicationUser
-                //{
-                //    UserName = domainUser.UserName,
-                //    Email = domainUser.Email
-                //};
+                result = await _userService.CreateUserAsync(user);
 
-                _userService.CreateUser(user); 
+                if (result == "User has been created successfully")
+                {
+                    return Created("", result);
+                }
 
-                //var result = await _userService.CreateUser(domainUser, _userManager).ConfigureAwait(true);
-
-                //if (result.Succeeded)
-                //{
-                //    return Ok(result.Succeeded);
-                //}
             }
-            catch (Exception ex)
+            else
             {
-
-                throw;
+                return BadRequest(result);
             }
-         
 
-            return Ok();
+            return BadRequest(result);
         }
 
         //[HttpPut("{id:int}")]
