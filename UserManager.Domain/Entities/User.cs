@@ -17,6 +17,6 @@ namespace UserManager.Domain.Entities
 
         public string Password { get; set; }
 
-        public virtual bool LockoutEnabled { get; set; }
+        public virtual bool Status { get; set; }
     }
 }

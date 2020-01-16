@@ -1,8 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Threading.Tasks;
-using UserManager.Domain.Entities;
-using UserManager.Infra.CrossCutting.Identity.Config;
 
 namespace UserManager.Infra.CrossCutting.Identity.Model
 {

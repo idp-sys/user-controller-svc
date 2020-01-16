@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using UserManager.API.Models;
-using UserManager.Application.Interfaces.Services;
 using UserManager.Domain.Entities;
+using UserManager.Domain.Interfaces.Services;
 using UserManager.Infra.CrossCutting.Identity.Config;
 
 namespace UserManager.API.Controllers
@@ -17,7 +17,7 @@ namespace UserManager.API.Controllers
         private IUserService _userService;
         private readonly IMapper _mapper;
 
-        public UserController(ApplicationUserManager userManager,  IUserService userService, IMapper mapper)
+        public UserController(ApplicationUserManager userManager, IUserService userService, IMapper mapper)
         {
             _userManager = userManager;
             _userService = userService;
@@ -27,13 +27,14 @@ namespace UserManager.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-      
-        public async  Task<ActionResult> Create([FromBody]UserViewModel model)
+        [Route("[action]")]
+        public async Task<ActionResult> Create([FromBody]UserViewModelCreate model)
         {
-           string result = string.Empty;
+            string result = string.Empty;
 
             if (ModelState.IsValid)
             {
+
                 User user = new User
                 {
                     UserName = model.Name,
@@ -47,87 +48,125 @@ namespace UserManager.API.Controllers
                 {
                     return Created("", result);
                 }
-
             }
             else
             {
                 return BadRequest(result);
             }
 
-            return BadRequest(result);
+            return BadRequest(model);
         }
 
-        //[HttpPut("{id:int}")]
-        //public async Task<ActionResult> EditAsync([FromBody] UserViewModel model, [FromRoute] string id)
-        //{
-        //    var user = _mapper.Map<User>(model);
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Route("[action]/{id}")]
+        [HttpPut]
+        public async Task<ActionResult> Edit([FromBody] UserViewModelUpdate model, [FromRoute] string id)
+        {
+            string result = string.Empty;
 
-        //    var result = await _userService.UpdateUser(id, user, _userManager).ConfigureAwait(true);
+            if (ModelState.IsValid)
+            {
+                User user = new User
+                {
+                    UserName = model.Name,
+                    Email = model.Email
+                };
 
-        //    if (result.Succeeded)
-        //    {
-        //        return Ok(result.Succeeded);
-        //    }
+                result = await _userService.UpdateUserAsync(id, user);
 
+                if (result == "User has been updated successfully")
+                {
+                    return NoContent();
+                }
+            }
+            else
+            {
+                return NotFound(result);
+            }
 
-        //    return Ok(result.Errors);
+            return BadRequest(model);
+        }
 
-        //}
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Route("[action]/{id}")]
+        [HttpDelete]
+        public async Task<ActionResult> Delete([FromRoute] string id)
+        {
+            string result = string.Empty;
 
-        //[HttpDelete("{id:int}", Name = "Delete")]
-        //public async Task<ActionResult> DeleteAsync([FromRoute] string id)
-        //{
-        //    var result = await _userService.DeleteUser(id, _userManager).ConfigureAwait(true);
+            if (!string.IsNullOrEmpty(id))
+            {
+                result = await _userService.DeleteUserAsync(id);
 
-        //    if (result.Succeeded)
-        //    {
-        //        return Ok(result.Succeeded);
-        //    }
+                if (result == "User has been deleted successfully")
+                {
+                    return Ok(result);
+                }
+            }
+            else
+            {
+                return NotFound(result);
+            }
 
+            return BadRequest();
+        }
 
-        //    return Ok(result.Errors);
-        //}
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Route("[action]")]
+        [HttpGet]
+        public async Task<ActionResult> ListUsers()
+        {
+            var result = await _userService.GetAllUsersAsync();
 
-        //[HttpGet]
-        //public ActionResult GetAllUser()
-        //{
-        //    var result = _userService.GetAllusers(_userManager);
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound(result);
+            }
+        }
 
-        //    if (result != null)
-        //    {
-        //        return Ok(result);
-        //    }
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Route("[action]/{id}")]
+        [HttpGet]
+        public async Task<ActionResult> GetById([FromRoute] string id)
+        {
+            var result = await _userService.GetUserByIdAsync(id);
 
-        //    return Ok("Falha");
-        //}
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound(result);
+            }
+        }
 
-        //[HttpGet("{id:int}")]
-        //public async Task<ActionResult> GetByIdAsync([FromRoute] string id)
-        //{
-        //    var result = await _userService.GetUserById(id, _userManager).ConfigureAwait(true);
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Route("[action]/{name}")]
+        [HttpGet]
+        public ActionResult GetByName([FromRoute] string name)
+        {
+            var result =  _userService.GetUserByName(name);
 
-
-        //    if (result != null)
-        //    {
-        //        return Ok(result);
-        //    }
-
-
-        //    return Ok("Falha");
-        //}
-
-        //[HttpGet("{name}")]
-        //public async Task<ActionResult> GetbynameAsync([FromRoute] string name)
-        //{
-        //    var result = await _userService.GetUserByName(name, _userManager).ConfigureAwait(true);
-
-        //    if (result != null)
-        //    {
-        //        return Ok(result);
-        //    }
-
-
-        //    return Ok("Falha");
-        //}
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound(result);
+            }
+        }
     }
 }

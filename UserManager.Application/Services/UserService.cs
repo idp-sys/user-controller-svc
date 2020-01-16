@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using UserManager.Application.Interfaces.Services;
 using UserManager.Domain.Entities;
 using UserManager.Domain.Interfaces.Repositories;
+using UserManager.Domain.Interfaces.Services;
 
 namespace UserManager.Application.Services
 {
     public class UserService : IUserService
     {
         private IUserRepository _userRepository;
+
         public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
@@ -16,12 +17,12 @@ namespace UserManager.Application.Services
 
         public async Task<string> CreateUserAsync(User model)
         {
-           return  await _userRepository.CreateUserAsync(model); 
+            return await _userRepository.CreateUserAsync(model);
         }
 
-        public async Task<string> DeleteUserAsync(string id, bool status)
+        public async Task<string> DeleteUserAsync(string id)
         {
-            return await _userRepository.DeleteUserAsync(id, status);
+            return await _userRepository.DeleteUserAsync(id);
         }
 
         public async Task<IEnumerable<User>> GetAllUsersAsync()
@@ -34,12 +35,12 @@ namespace UserManager.Application.Services
             return await _userRepository.GetUserByIdAsync(id);
         }
 
-        public async Task<User> GetUserByNameAsync(string name)
+        public User GetUserByName(string name)
         {
-            return await _userRepository.GetUserByNameAsync(name);
+            return  _userRepository.GetUserByName(name);
         }
 
-        public async Task<string> UpdateUserAsync(string id , User model)
+        public async Task<string> UpdateUserAsync(string id, User model)
         {
             return await _userRepository.UpdateUserAsync(id, model);
         }
