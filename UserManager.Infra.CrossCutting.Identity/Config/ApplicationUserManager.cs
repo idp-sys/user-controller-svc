@@ -11,5 +11,30 @@ namespace UserManager.Infra.CrossCutting.Identity.Config
           : base(store, null, null, null, null, null, null, null, null)
         {
         }
+
+        //public async Task<IdentityResult> CreateUserAsync(User userDomain, ApplicationUserManager userManager)
+        //{
+        //    IdentityResult identityResult = new IdentityResult();
+        //    try
+        //    {
+        //        ApplicationUser user = new ApplicationUser
+        //        {
+        //            UserName = userDomain.UserName,
+        //            Email = userDomain.Email
+        //        };
+        //        identityResult = await userManager.CreateAsync(user, userDomain.Password);
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+
+        //        throw;
+        //    }
+
+
+
+
+
+        //    return identityResult;
+        //}
     }
 }

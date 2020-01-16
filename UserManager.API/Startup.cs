@@ -1,15 +1,22 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.Mvc.ViewComponents;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using SimpleInjector;
-using SimpleInjector.Integration.AspNetCore.Mvc;
-using UserManager.Infra.CrossCutting.IoC;
+using SimpleInjector.Lifestyles;
+using UserManager.Application.Interfaces.Services;
+using UserManager.Application.Services;
+using UserManager.Domain.Interfaces.Repositories;
+using UserManager.Infra.CrossCutting.Identity.Config;
+using UserManager.Infra.CrossCutting.Identity.Context;
+using UserManager.Infra.CrossCutting.Identity.Model;
+using UserManager.Infra.CrossCutting.Identity.Repositories;
+
 
 namespace UserManager.API
 {
@@ -18,54 +25,75 @@ namespace UserManager.API
         private Container container = new Container();
 
         public IConfiguration Configuration { get; }
-
         public Startup(IConfiguration configuration)
         {
+            container.Options.ResolveUnregisteredConcreteTypes = false;
             Configuration = configuration;
-            //var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
-            //Configuration = builder.Build();
+
         }
+
+     
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(Configuration.GetConnectionString("UserManagerDb")));
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+
+            //Rgistrando Container IoC
+            // Sets up the basic configuration that for integrating Simple Injector with
+            // ASP.NET Core by setting the DefaultScopedLifestyle, and setting up auto
+            // cross wiring.
+            services.AddSimpleInjector(container, options =>
+            {
+                // AddAspNetCore() wraps web requests in a Simple Injector scope and
+                // allows request-scoped framework services to be resolved.
+                options.AddAspNetCore()
+
+                    // Ensure activation of a specific framework type to be created by
+                    // Simple Injector instead of the built-in configuration system.
+                    // All calls are optional. You can enable what you need. For instance,
+                    // PageModels and TagHelpers are not needed when you build a Web API.
+                    .AddControllerActivation();
+
+                //.AddViewComponentActivation()
+                //.AddPageModelActivation()
+                //.AddTagHelperActivation();
+
+                // Optionally, allow application components to depend on the non-generic
+                // ILogger (Microsoft.Extensions.Logging) or IStringLocalizer
+                // (Microsoft.Extensions.Localization) abstractions.
+                options.AddLogging();
+                // options.AddLocalization();
+            });
+
+            services.UseSimpleInjectorAspNetRequestScoping(container);
+
+           
 
             services.AddAutoMapper(typeof(Startup));
-
-            //Adicao de Container IoC
-            services.AddSingleton<IControllerActivator>(
-                  new SimpleInjectorControllerActivator(container));
-
-            services.AddSingleton<IViewComponentActivator>(
-                   new SimpleInjectorViewComponentActivator(container));
-
-            services.AddControllers();
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "User Manager API", Version = "v1" });
             });
-        
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            container.Options.DefaultScopedLifestyle = new SimpleInjector.Lifestyles.AsyncScopedLifestyle();
-
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
             }
-
+            app.UseSimpleInjector(container);
             InitializeContainer(container);
 
             container.Verify();
-
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
+
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
@@ -73,23 +101,20 @@ namespace UserManager.API
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
-
-
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllers();
-            //});
+            app.UseMvc();
         }
 
-        private static void InitializeContainer(Container container)
+        private void InitializeContainer(Container container)
         {
-            BootStrapper.RegisterServices(container);
+            container.Register<ApplicationDbContext>(Lifestyle.Scoped);
+
+            container.Register<IUserStore<ApplicationUser>>(() => new UserStore<ApplicationUser>(new ApplicationDbContext()), Lifestyle.Scoped);
+
+            container.Register<ApplicationUserManager>(Lifestyle.Scoped);
+ 
+            container.Register<IUserRepository, UserRepository>(Lifestyle.Scoped);
+
+            container.Register<IUserService, UserService>(Lifestyle.Scoped);
         }
     }
 }

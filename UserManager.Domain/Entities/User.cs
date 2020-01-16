@@ -6,10 +6,10 @@ namespace UserManager.Domain.Entities
     {
         public User()
         {
-            Id = Guid.NewGuid().ToString();
+            this.Id = Guid.NewGuid().ToString();
         }
 
-        public string Id { get; set; }
+        public virtual string Id { get; set; }
 
         public virtual string Email { get; set; }
 

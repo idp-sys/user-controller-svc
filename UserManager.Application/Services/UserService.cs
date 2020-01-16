@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UserManager.Application.Interfaces.Services;
 using UserManager.Domain.Entities;
+using UserManager.Domain.Interfaces.Repositories;
 using UserManager.Infra.CrossCutting.Identity.Config;
 using UserManager.Infra.CrossCutting.Identity.Model;
 
@@ -10,12 +11,16 @@ namespace UserManager.Application.Services
 {
     public class UserService : IUserService
     {
-        public async Task<IdentityResult> CreateUser(User model, ApplicationUserManager userManager)
+        private IUserRepository _userRepository;
+        public UserService(IUserRepository userRepository)
         {
-            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-            var result = await userManager.CreateAsync(user, model.Password);
+            _userRepository = userRepository;
+        }
 
-            return result;
+        public void CreateUser(User model)
+        {
+            _userRepository.createUser(model);
+      
         }
 
         public async Task<IdentityResult> DeleteUser(string id, ApplicationUserManager userManager)
