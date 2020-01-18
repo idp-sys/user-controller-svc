@@ -45,7 +45,6 @@ namespace UserManager.UnitTests
                 Password = create.password
             };
 
-            //TODO: Validar 
             userViewModel.Name.Should().BeOfType<string>();
             userViewModel.Email.Should().BeOfType<string>();
             userViewModel.Password.Should().BeOfType<string>();

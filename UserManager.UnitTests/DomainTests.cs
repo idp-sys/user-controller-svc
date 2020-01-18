@@ -26,7 +26,6 @@ namespace UserManager.UnitTests
 
             };
 
-            //TODO Validar
             user.UserName.Should().BeOfType<string>();
             user.Email.Should().BeOfType<string>();
             user.Password.Should().BeOfType<string>();
