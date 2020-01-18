@@ -1,21 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
-using UserManager.Application.Services;
-using UserManager.Domain.Interfaces.Repositories;
-using UserManager.Domain.Interfaces.Services;
-using UserManager.Infra.CrossCutting.Identity.Config;
-using UserManager.Infra.CrossCutting.Identity.Context;
-using UserManager.Infra.CrossCutting.Identity.Model;
-using UserManager.Infra.CrossCutting.Identity.Repositories;
+using UserManager.Infra.CrossCutting.IoC;
 
 namespace UserManager.API
 {
@@ -82,15 +74,7 @@ namespace UserManager.API
 
         private void InitializeContainer(Container container)
         {
-            container.Register<ApplicationDbContext>(Lifestyle.Scoped);
-
-            container.Register<IUserStore<ApplicationUser>>(() => new UserStore<ApplicationUser>(new ApplicationDbContext()), Lifestyle.Scoped);
-
-            container.Register<ApplicationUserManager>(Lifestyle.Scoped);
-
-            container.Register<IUserRepository, UserRepository>(Lifestyle.Scoped);
-
-            container.Register<IUserService, UserService>(Lifestyle.Scoped);
+            BootStrapper.RegisterServices(container);
         }
     }
 }
