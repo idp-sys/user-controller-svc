@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 using UserManager.API.Models;
 using UserManager.Domain.Entities;
@@ -32,28 +33,36 @@ namespace UserManager.API.Controllers
         {
             string result = string.Empty;
 
-            if (ModelState.IsValid)
+            try
             {
-
-                User user = new User
+                if (ModelState.IsValid)
                 {
-                    UserName = model.Name,
-                    Email = model.Email,
-                    Password = model.Password,
-                };
 
-                result = await _userService.CreateUserAsync(user);
+                    User user = new User
+                    {
+                        UserName = model.Name,
+                        Email = model.Email,
+                        Password = model.Password,
+                    };
 
-                if (result == "User has been created successfully")
+                    result = await _userService.CreateUserAsync(user);
+
+                    if (result == "User has been created successfully")
+                    {
+                        return Created("", result);
+                    }
+                }
+                else
                 {
-                    return Created("", result);
+                    return BadRequest(result);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest(result);
+                ex.Message.ToString();
+                return BadRequest(model);
             }
-
+        
             return BadRequest(model);
         }
 
@@ -66,24 +75,32 @@ namespace UserManager.API.Controllers
         {
             string result = string.Empty;
 
-            if (ModelState.IsValid)
+            try
             {
-                User user = new User
+                if (ModelState.IsValid)
                 {
-                    UserName = model.Name,
-                    Email = model.Email
-                };
+                    User user = new User
+                    {
+                        UserName = model.Name,
+                        Email = model.Email
+                    };
 
-                result = await _userService.UpdateUserAsync(id, user);
+                    result = await _userService.UpdateUserAsync(id, user);
 
-                if (result == "User has been updated successfully")
+                    if (result == "User has been updated successfully")
+                    {
+                        return NoContent();
+                    }
+                }
+                else
                 {
-                    return NoContent();
+                    return NotFound(result);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound(result);
+                ex.Message.ToString();
+                return BadRequest(model);
             }
 
             return BadRequest(model);
@@ -97,19 +114,26 @@ namespace UserManager.API.Controllers
         public async Task<ActionResult> Delete([FromRoute] string id)
         {
             string result = string.Empty;
-
-            if (!string.IsNullOrEmpty(id))
+            try
             {
-                result = await _userService.DeleteUserAsync(id);
-
-                if (result == "User has been deleted successfully")
+                if (!string.IsNullOrEmpty(id))
                 {
-                    return Ok(result);
+                    result = await _userService.DeleteUserAsync(id);
+
+                    if (result == "User has been deleted successfully")
+                    {
+                        return Ok(result);
+                    }
+                }
+                else
+                {
+                    return NotFound(result);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound(result);
+                ex.Message.ToString();
+                return BadRequest();
             }
 
             return BadRequest();
@@ -123,14 +147,24 @@ namespace UserManager.API.Controllers
         {
             var result = await _userService.GetAllUsersAsync();
 
-            if (result != null)
+            try
             {
-                return Ok(result);
+                if (result != null)
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return NotFound(result);
+                }
+
             }
-            else
+            catch (Exception ex)
             {
+                ex.Message.ToString();
                 return NotFound(result);
             }
+           
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -141,14 +175,23 @@ namespace UserManager.API.Controllers
         {
             var result = await _userService.GetUserByIdAsync(id);
 
-            if (result != null)
+            try
             {
-                return Ok(result);
+                if (result != null)
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return NotFound(result);
+                }
             }
-            else
+            catch (Exception ex)
             {
+                ex.Message.ToString();
                 return NotFound(result);
             }
+  
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -157,16 +200,25 @@ namespace UserManager.API.Controllers
         [HttpGet]
         public ActionResult GetByName([FromRoute] string name)
         {
-            var result =  _userService.GetUserByName(name);
-
-            if (result != null)
+            try
             {
-                return Ok(result);
+                var result = _userService.GetUserByName(name);
+                
+                if (result != null)
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return NotFound(result);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound(result);
+                ex.Message.ToString();
+                return NotFound();
             }
+         
         }
     }
 }

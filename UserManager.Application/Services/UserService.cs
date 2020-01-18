@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UserManager.Domain.Entities;
 using UserManager.Domain.Interfaces.Repositories;
@@ -12,37 +13,84 @@ namespace UserManager.Application.Services
 
         public UserService(IUserRepository userRepository)
         {
-            _userRepository = userRepository;
+   
+          _userRepository = userRepository;
+                     
         }
 
         public async Task<string> CreateUserAsync(User model)
         {
-            return await _userRepository.CreateUserAsync(model);
+            try
+            {
+                return await _userRepository.CreateUserAsync(model);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }            
         }
 
         public async Task<string> DeleteUserAsync(string id)
         {
-            return await _userRepository.DeleteUserAsync(id);
+            try
+            {
+                return await _userRepository.DeleteUserAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+           
         }
 
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            return await _userRepository.GetAllUsersAsync();
+            try
+            {
+                return await _userRepository.GetAllUsersAsync();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+           
         }
 
         public async Task<User> GetUserByIdAsync(string id)
         {
-            return await _userRepository.GetUserByIdAsync(id);
+            try
+            {
+                return await _userRepository.GetUserByIdAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+           
         }
 
         public User GetUserByName(string name)
         {
-            return  _userRepository.GetUserByName(name);
+            try
+            {
+                return _userRepository.GetUserByName(name);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public async Task<string> UpdateUserAsync(string id, User model)
         {
-            return await _userRepository.UpdateUserAsync(id, model);
+            try
+            {
+                return await _userRepository.UpdateUserAsync(id, model);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }
