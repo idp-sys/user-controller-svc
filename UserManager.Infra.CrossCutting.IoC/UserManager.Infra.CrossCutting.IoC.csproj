@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>UserManager.Infra.CrossCutting.IoC.PACK</PackageId>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JSNLog" Version="2.29.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.DataAnnotations" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.1" />
+    <PackageReference Include="SimpleInjector" Version="4.9.0" />
+    <PackageReference Include="SimpleInjector.Integration.AspNetCore.Mvc" Version="4.9.0" />
+    <PackageReference Include="UserManager.Application.PACK" Version="1.0.0" />
+    <PackageReference Include="UserManager.Infra.CrossCutting.Identity.PACK" Version="1.0.0" />
+    <PackageReference Include="UserManager.Shared.PACK" Version="1.0.0" />
+  </ItemGroup>
+
+</Project>
