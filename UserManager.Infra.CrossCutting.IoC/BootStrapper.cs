@@ -30,9 +30,7 @@ namespace UserManager.Infra.CrossCutting.IoC
             container.Register(() => new LoggerFactoryBuilder().ConfigureLogger(), Lifestyle.Singleton);
 
             container.Register(typeof(ILogger<>), typeof(LoggingAdapter<>));
-            //container.RegisterInstance<ILoggerFactory>(loggerFactory);
 
-            //container.RegisterSingleton(typeof(ILogger<>), typeof(Logger<>));
         }
     }
 }

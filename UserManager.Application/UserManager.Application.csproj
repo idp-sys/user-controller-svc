@@ -2,14 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>UserManager.Application.PACK</PackageId>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\UserManager.Domain\UserManager.Domain.csproj" />
+    <PackageReference Include="UserManager.Domain.PACK" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

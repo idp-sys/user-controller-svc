@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <PackageId>UserManager.API.PACK</PackageId>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,11 +29,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="SimpleInjector" Version="4.9.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\UserManager.Infra.CrossCutting.IoC\UserManager.Infra.CrossCutting.IoC.csproj" />
-    <ProjectReference Include="..\UserManager.Shared\UserManager.Shared.csproj" />
+    <PackageReference Include="UserManager.Infra.CrossCutting.IoC.PACK" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -24,7 +24,7 @@ namespace UserManager.Application.Services
             {
                 return await _userRepository.CreateUserAsync(model);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }            
@@ -36,7 +36,7 @@ namespace UserManager.Application.Services
             {
                 return await _userRepository.DeleteUserAsync(id);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -49,7 +49,7 @@ namespace UserManager.Application.Services
             {
                 return await _userRepository.GetAllUsersAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -62,7 +62,7 @@ namespace UserManager.Application.Services
             {
                 return await _userRepository.GetUserByIdAsync(id);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -75,7 +75,7 @@ namespace UserManager.Application.Services
             {
                 return _userRepository.GetUserByName(name);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -87,7 +87,7 @@ namespace UserManager.Application.Services
             {
                 return await _userRepository.UpdateUserAsync(id, model);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

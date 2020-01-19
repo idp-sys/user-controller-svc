@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>UserManager.Infra.CrossCutting.IoC.PACK</PackageId>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,13 +15,9 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.1" />
     <PackageReference Include="SimpleInjector" Version="4.9.0" />
     <PackageReference Include="SimpleInjector.Integration.AspNetCore.Mvc" Version="4.9.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\UserManager.Application\UserManager.Application.csproj" />
-    <ProjectReference Include="..\UserManager.Domain\UserManager.Domain.csproj" />
-    <ProjectReference Include="..\UserManager.Infra.CrossCutting.Identity\UserManager.Infra.CrossCutting.Identity.csproj" />
-    <ProjectReference Include="..\UserManager.Shared\UserManager.Shared.csproj" />
+    <PackageReference Include="UserManager.Application.PACK" Version="1.0.0" />
+    <PackageReference Include="UserManager.Infra.CrossCutting.Identity.PACK" Version="1.0.0" />
+    <PackageReference Include="UserManager.Shared.PACK" Version="1.0.0" />
   </ItemGroup>
 
 </Project>
