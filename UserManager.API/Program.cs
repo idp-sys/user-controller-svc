@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Serilog;
 
 namespace UserManager.API
 {
@@ -12,6 +13,12 @@ namespace UserManager.API
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+                .UseStartup<Startup>()
+                .UseSerilog((hostingContext,loggerConfiguration) => loggerConfiguration
+                .ReadFrom.Configuration(hostingContext.Configuration));
+
+
+
+
     }
 }

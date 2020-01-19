@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
@@ -28,6 +29,7 @@ namespace UserManager.API
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+            container.Options.AllowOverridingRegistrations = true;
 
             //Registrando Container IoC
             // Sets up the basic configuration that for integrating Simple Injector with
@@ -52,7 +54,7 @@ namespace UserManager.API
             });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env , ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {

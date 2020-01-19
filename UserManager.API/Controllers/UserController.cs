@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using UserManager.API.Models;
@@ -17,12 +18,14 @@ namespace UserManager.API.Controllers
         private ApplicationUserManager _userManager;
         private IUserService _userService;
         private readonly IMapper _mapper;
+        private ILogger _logger;
 
-        public UserController(ApplicationUserManager userManager, IUserService userService, IMapper mapper)
+        public UserController(ApplicationUserManager userManager, IUserService userService, IMapper mapper , ILogger<UserController> logger)
         {
             _userManager = userManager;
             _userService = userService;
             _mapper = mapper;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -49,6 +52,7 @@ namespace UserManager.API.Controllers
 
                     if (result == "User has been created successfully")
                     {
+                        _logger.LogInformation("User created");
                         return Created("", result);
                     }
                 }
@@ -59,7 +63,7 @@ namespace UserManager.API.Controllers
             }
             catch (Exception ex)
             {
-                ex.Message.ToString();
+                _logger.LogError(ex.Message.ToString());
                 return BadRequest(model);
             }
         
@@ -89,6 +93,7 @@ namespace UserManager.API.Controllers
 
                     if (result == "User has been updated successfully")
                     {
+                        _logger.LogInformation("User updated");
                         return NoContent();
                     }
                 }
@@ -99,7 +104,7 @@ namespace UserManager.API.Controllers
             }
             catch (Exception ex)
             {
-                ex.Message.ToString();
+                _logger.LogError(ex.Message.ToString());
                 return BadRequest(model);
             }
 
@@ -122,6 +127,7 @@ namespace UserManager.API.Controllers
 
                     if (result == "User has been deleted successfully")
                     {
+                        _logger.LogInformation("User deleted");
                         return Ok(result);
                     }
                 }
@@ -132,7 +138,7 @@ namespace UserManager.API.Controllers
             }
             catch (Exception ex)
             {
-                ex.Message.ToString();
+                _logger.LogError(ex.Message.ToString());
                 return BadRequest();
             }
 
@@ -161,7 +167,7 @@ namespace UserManager.API.Controllers
             }
             catch (Exception ex)
             {
-                ex.Message.ToString();
+                _logger.LogError(ex.Message.ToString());
                 return NotFound(result);
             }
            
@@ -188,7 +194,7 @@ namespace UserManager.API.Controllers
             }
             catch (Exception ex)
             {
-                ex.Message.ToString();
+                _logger.LogError(ex.Message.ToString());
                 return NotFound(result);
             }
   
@@ -215,7 +221,7 @@ namespace UserManager.API.Controllers
             }
             catch (Exception ex)
             {
-                ex.Message.ToString();
+                _logger.LogError(ex.Message.ToString());
                 return NotFound();
             }
          

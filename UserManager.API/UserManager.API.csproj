@@ -5,7 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="logging.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="logging.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +30,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\UserManager.Infra.CrossCutting.IoC\UserManager.Infra.CrossCutting.IoC.csproj" />
+    <ProjectReference Include="..\UserManager.Shared\UserManager.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="log.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
