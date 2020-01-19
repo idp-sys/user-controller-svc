@@ -33,6 +33,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManager.UnitTests", "Us
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManager.Shared", "UserManager.Shared\UserManager.Shared.csproj", "{5A80651E-0D74-41D6-A7A0-1C73FBAD1A93}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F9F98AB3-ADB1-4CD3-8CBC-55620899EBE2}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\Desktop\Readme.txt = ..\..\..\Desktop\Readme.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
